@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spannungen umrechnen – Messwerkstatt Elektrik</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] } } }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f8fafc; }
+        .glass-panel { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .glass-card { background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .nav-pill { padding: 0.375rem 0.75rem; border-radius: 0.5rem; background: #1e293b; color: #cbd5e1; border: 1px solid #334155; transition: all 0.15s; }
+        .nav-pill:hover { background: #334155; }
+        .nav-pill.active { background: rgba(16,185,129,0.15); border-color: rgba(16,185,129,0.4); color: #6ee7b7; }
+        .formula-box { font-family: 'JetBrains Mono', monospace; background: rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; }
+        details > summary { cursor: pointer; list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] .chevron { transform: rotate(180deg); }
+        .conv-input { background:#0f172a; border:1px solid #334155; color:#f8fafc; }
+        .conv-input:focus { outline:2px solid #10b981; border-color:#10b981; }
+        .conv-input.ok { border-color:#10b981; background: rgba(16,185,129,0.08); }
+        .conv-input.bad { border-color:#f43f5e; background: rgba(244,63,94,0.08); }
+        .sketch-frame { background: #faf8f2; border-radius: 0.75rem; padding: 1.1rem 1.3rem; border: 1px solid rgba(255,255,255,0.1); color: #1e293b; }
+        .task-badge { width: 1.9rem; height: 1.9rem; border-radius: 0.4rem; background: #dc2626; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.95rem; flex-shrink: 0; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-white">
+
+    <header class="sticky top-0 z-50 glass-panel border-b border-slate-800">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4 flex-wrap">
+            <div class="flex items-center space-x-3">
+                <a href="index.html" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition" title="Zur Übersicht">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-600 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
+                    <i class="fa-solid fa-calculator text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-base font-bold text-white leading-tight">Spannungen umrechnen</h1>
+                    <p class="text-xs text-emerald-400 font-medium">Station 2 von 4 · Buch S. 31, Nr. 2</p>
+                </div>
+            </div>
+            <nav class="flex items-center gap-1.5 text-xs font-semibold flex-wrap">
+                <a href="quiz1.html" class="nav-pill">1. Quiz</a>
+                <a href="umrechnen.html" class="nav-pill active">2. Umrechnen</a>
+                <a href="arbeitsblatt.html" class="nav-pill">3. Arbeitsblatt</a>
+                <a href="quiz2.html" class="nav-pill">4. Abschluss</a>
+                <a href="bonus.html" class="nav-pill">★ Bonus</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow space-y-6">
+
+        <div class="glass-panel rounded-2xl p-6 border border-slate-800">
+            <p class="text-sm text-slate-300 leading-relaxed">
+                Rechne zuerst <strong class="text-white">in deinem Heft</strong> alle neun Umrechnungen aus Nummer 2 (Buch Seite 31)
+                mit vollständigem Lösungsweg. Trage danach hier nur die <strong class="text-white">Ergebnisse</strong> ein, um dich
+                selbst zu kontrollieren.
+            </p>
+            <div class="formula-box mt-4 rounded-xl p-3.5 text-xs text-emerald-200">
+                1 V = 1000 mV &nbsp;·&nbsp; 1 kV = 1000 V<br>
+                Eine Stelle nach rechts (kV → V → mV) = · 1000 &nbsp;·&nbsp; eine Stelle nach links = : 1000
+            </div>
+        </div>
+
+        <!-- AUFGABENSTELLUNG (Buchseite nachgestaltet – bei Bedarf gegen Originalfoto tauschen, siehe Kommentar unten) -->
+        <div class="glass-panel rounded-2xl p-5 border border-slate-800">
+            <p class="text-xs text-slate-400 mb-3 flex items-center gap-1.5"><i class="fa-solid fa-book-open text-emerald-400"></i> Buch Seite 31, Nummer 2</p>
+            <!-- Um hier stattdessen das eingescannte Originalfoto zu zeigen: dieses <div class="sketch-frame">…</div>
+                 ersetzen durch <img src="aufgabe-2.jpg" alt="Buch S. 31, Nr. 2" class="w-full rounded-xl"> -->
+            <div class="sketch-frame">
+                <div class="flex items-start gap-3">
+                    <div class="task-badge">2</div>
+                    <div class="text-sm leading-relaxed">
+                        <p class="font-semibold mb-2">Rechne jeweils in die angegebene Einheit um:</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-1 font-mono text-[13px]">
+                            <span>a) 0,25 V in mV</span><span>b) 34,5 mV in V</span><span>c) 12,8 V in mV</span>
+                            <span>d) 16450 mV in V</span><span>e) 230 V in kV</span><span>f) 0,078 kV in V</span>
+                            <span>g) 240000 V in kV</span><span>h) 12,5 kV in V</span><span>i) 0,230 kV in V</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-panel rounded-2xl p-6 border border-slate-800 space-y-1">
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="text-sm font-bold text-white">Nummer 2 – Ergebnisse eintragen</h2>
+                <span id="convScore" class="text-xs bg-emerald-500/10 text-emerald-400 px-3 py-1.5 rounded-full border border-emerald-500/20 font-mono font-bold">0 / 9 richtig</span>
+            </div>
+            <div id="convList" class="divide-y divide-slate-800"></div>
+        </div>
+
+        <a href="arbeitsblatt.html" class="inline-flex items-center gap-2 text-xs text-slate-400 hover:text-slate-200 transition">
+            Weiter zu Station 3: Arbeitsblatt <i class="fa-solid fa-arrow-right"></i>
+        </a>
+    </main>
+
+    <footer class="glass-panel border-t border-slate-800 mt-12 py-6 text-center text-xs text-slate-400">
+        <div class="max-w-3xl mx-auto px-4"><p>Messwerkstatt Elektrik · Physik 8. Klasse</p></div>
+    </footer>
+
+<script>
+const conv = [
+  {label:"a)", from:"0,25 V", target:"mV", answer:250, display:"250 mV"},
+  {label:"b)", from:"34,5 mV", target:"V", answer:0.0345, display:"0,0345 V"},
+  {label:"c)", from:"12,8 V", target:"mV", answer:12800, display:"12800 mV"},
+  {label:"d)", from:"16450 mV", target:"V", answer:16.45, display:"16,45 V"},
+  {label:"e)", from:"230 V", target:"kV", answer:0.23, display:"0,23 kV"},
+  {label:"f)", from:"0,078 kV", target:"V", answer:78, display:"78 V"},
+  {label:"g)", from:"240000 V", target:"kV", answer:240, display:"240 kV"},
+  {label:"h)", from:"12,5 kV", target:"V", answer:12500, display:"12500 V"},
+  {label:"i)", from:"0,230 kV", target:"V", answer:230, display:"230 V"}
+];
+
+const list = document.getElementById('convList');
+conv.forEach((c, i) => {
+  const row = document.createElement('div');
+  row.className = "py-3.5 flex flex-wrap items-center gap-2";
+  row.innerHTML = `
+    <span class="font-mono text-sm text-slate-200">${c.label}</span>
+    <span class="font-mono text-sm text-slate-200">U = ${c.from} =</span>
+    <input type="text" inputmode="decimal" id="in-${i}" placeholder="?" class="conv-input rounded-lg px-3 py-2 text-sm font-mono w-24 text-center">
+    <span class="font-mono text-sm text-slate-200">${c.target}</span>
+    <button data-idx="${i}" class="btn-check px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition">Prüfen</button>
+    <span id="fb-${i}" class="text-xs"></span>
+    <details class="w-full mt-1">
+      <summary class="text-[11px] text-emerald-400 hover:text-emerald-300 w-fit font-semibold"><i class="fa-solid fa-chevron-down chevron transition-transform text-[9px] mr-1"></i>Lösung anzeigen</summary>
+      <div class="mt-1.5 text-xs text-emerald-200 font-mono bg-slate-900/70 border border-slate-800 rounded-lg px-3 py-2 inline-block">U = ${c.from} = ${c.display}</div>
+    </details>
+  `;
+  list.appendChild(row);
+});
+
+function parseNum(raw){
+  const s = String(raw||"").trim().replace(/\./g,"").replace(",",".");
+  return parseFloat(s);
+}
+function numsClose(a,b){
+  if(isNaN(a)) return false;
+  const tol = Math.max(Math.abs(b)*0.01, 0.001);
+  return Math.abs(a-b) <= tol;
+}
+function updateScore(){
+  let count = 0;
+  conv.forEach((c,i) => { if(document.getElementById('in-'+i).dataset.status==='ok') count++; });
+  document.getElementById('convScore').textContent = `${count} / 9 richtig`;
+}
+
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.btn-check');
+  if(!btn) return;
+  const i = btn.dataset.idx;
+  const c = conv[i];
+  const input = document.getElementById('in-'+i);
+  const fb = document.getElementById('fb-'+i);
+  const num = parseNum(input.value);
+  const ok = numsClose(num, c.answer);
+  input.classList.remove('ok','bad');
+  input.classList.add(ok ? 'ok' : 'bad');
+  input.dataset.status = ok ? 'ok' : 'bad';
+  fb.innerHTML = ok
+    ? '<i class="fa-solid fa-circle-check text-emerald-400"></i> <span class="text-emerald-400">Richtig!</span>'
+    : '<i class="fa-solid fa-circle-xmark text-rose-400"></i> <span class="text-rose-400">Noch nicht richtig</span>';
+  updateScore();
+});
+</script>
+</body>
+</html>

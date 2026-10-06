@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiederholungsquiz – Messwerkstatt Elektrik</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] } } }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f8fafc; }
+        .glass-panel { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .glass-card { background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .nav-pill { padding: 0.375rem 0.75rem; border-radius: 0.5rem; background: #1e293b; color: #cbd5e1; border: 1px solid #334155; transition: all 0.15s; }
+        .nav-pill:hover { background: #334155; }
+        .nav-pill.active { background: rgba(56,189,248,0.15); border-color: rgba(56,189,248,0.4); color: #7dd3fc; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-sky-500 selection:text-white">
+
+    <header class="sticky top-0 z-50 glass-panel border-b border-slate-800">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4 flex-wrap">
+            <div class="flex items-center space-x-3">
+                <a href="index.html" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition" title="Zur Übersicht">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-sky-500/20">
+                    <i class="fa-solid fa-list-check text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-base font-bold text-white leading-tight">Wiederholungsquiz</h1>
+                    <p class="text-xs text-sky-400 font-medium">Station 1 von 4</p>
+                </div>
+            </div>
+            <nav class="flex items-center gap-1.5 text-xs font-semibold flex-wrap">
+                <a href="quiz1.html" class="nav-pill active">1. Quiz</a>
+                <a href="umrechnen.html" class="nav-pill">2. Umrechnen</a>
+                <a href="arbeitsblatt.html" class="nav-pill">3. Arbeitsblatt</a>
+                <a href="quiz2.html" class="nav-pill">4. Abschluss</a>
+                <a href="bonus.html" class="nav-pill">★ Bonus</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow space-y-6">
+
+        <p class="text-sm text-slate-300 leading-relaxed">
+            Stromstärke, Spannung und das Förderbandmodell aus der letzten Stunde – 15 Fragen. Wähle jeweils eine Antwort;
+            die richtige Lösung wird dir grün markiert, falsche Antworten rot.
+        </p>
+
+        <div class="glass-panel rounded-2xl p-6 border border-slate-800 space-y-5">
+            <div class="flex items-center justify-between">
+                <span id="quizScore" class="text-xs bg-sky-500/10 text-sky-400 px-3 py-1.5 rounded-full border border-sky-500/20 font-mono font-bold">Frage 1 / 15</span>
+                <span id="quizCounterText" class="text-xs text-slate-400 font-mono">Punkte: 0 / 0</span>
+            </div>
+
+            <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden">
+                <div id="quizProgressBar" class="bg-gradient-to-r from-sky-500 to-indigo-500 h-full transition-all duration-300" style="width:6.6%"></div>
+            </div>
+
+            <div id="quizQuestion" class="text-sm md:text-base font-medium text-white leading-relaxed"></div>
+            <div id="quizOptions" class="grid grid-cols-1 gap-2.5 pt-2"></div>
+            <div id="quizFeedback" class="hidden p-4 rounded-xl text-xs leading-relaxed"></div>
+
+            <div class="flex items-center justify-end pt-3 border-t border-slate-800">
+                <button id="btnNextQuiz" class="hidden px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs transition flex items-center gap-2 shadow-lg shadow-sky-600/20">
+                    <span>Nächste Frage</span> <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <a href="umrechnen.html" class="inline-flex items-center gap-2 text-xs text-slate-400 hover:text-slate-200 transition">
+            Weiter zu Station 2: Umrechnen <i class="fa-solid fa-arrow-right"></i>
+        </a>
+    </main>
+
+    <footer class="glass-panel border-t border-slate-800 mt-12 py-6 text-center text-xs text-slate-400">
+        <div class="max-w-3xl mx-auto px-4"><p>Messwerkstatt Elektrik · Physik 8. Klasse</p></div>
+    </footer>
+
+<script>
+const quizQuestions = [
+  { q: "1. Was gibt die elektrische Stromstärke I an?", options: [
+      "Die Ladungsmenge, die pro Sekunde durch einen Leiterquerschnitt fließt",
+      "Die Energiemenge, die pro Sekunde verbraucht wird",
+      "Der Widerstand eines Leiters",
+      "Die Anzahl der Batterien im Stromkreis"], correct:0,
+    explanation:"Die Stromstärke I gibt an, welche Ladungsmenge Q pro Sekunde t durch einen Leiterquerschnitt fließt: I = Q / t." },
+  { q: "2. Welches Formelzeichen steht für die Stromstärke?", options:["I","U","R","Q"], correct:0,
+    explanation:"Das Formelzeichen der Stromstärke ist I." },
+  { q: "3. Welche Einheit hat die elektrische Stromstärke?", options:["Ampere (A)","Volt (V)","Ohm (Ω)","Watt (W)"], correct:0,
+    explanation:"Die Einheit der Stromstärke ist 1 Ampere (A)." },
+  { q: "4. Rechne um: 2 A entsprechen wie vielen Milliampere?", options:["20 mA","200 mA","2000 mA","20000 mA"], correct:2,
+    explanation:"1 A = 1000 mA, also sind 2 A = 2000 mA." },
+  { q: "5. 500 mA entsprechen wie vielen Ampere?", options:["0,05 A","0,5 A","5 A","50 A"], correct:1,
+    explanation:"500 mA : 1000 = 0,5 A." },
+  { q: "6. 3000 µA entsprechen wie vielen Milliampere?", options:["0,3 mA","3 mA","30 mA","300 mA"], correct:1,
+    explanation:"1 mA = 1000 µA, also sind 3000 µA = 3 mA." },
+  { q: "7. 0,002 kA entsprechen wie vielen Ampere?", options:["0,2 A","2 A","20 A","200 A"], correct:1,
+    explanation:"1 kA = 1000 A, also sind 0,002 kA = 2 A." },
+  { q: "8. Wo herrscht in einer Batterie Elektronenmangel?", options:["Am Pluspol","Am Minuspol","Genau in der Mitte","Nirgends"], correct:0,
+    explanation:"Am Pluspol fehlen Elektronen – daher „Elektronenmangel“." },
+  { q: "9. Wo herrscht in einer Batterie Elektronenüberschuss?", options:["Am Minuspol","Am Pluspol","Genau in der Mitte","Nirgends"], correct:0,
+    explanation:"Am Minuspol gibt es zu viele Elektronen – daher „Elektronenüberschuss“." },
+  { q: "10. Die elektrische Spannung U beschreibt …", options:[
+      "die Stärke des „Antriebs“ (Drucks), der die Elektronen bewegt",
+      "die Menge der Elektronen, die pro Sekunde fließen",
+      "den Widerstand eines Bauteils",
+      "die Temperatur im Leiter"], correct:0,
+    explanation:"Die Spannung ist der „Antrieb“ bzw. „Druck“, der die Elektronen in Bewegung versetzt – vergleichbar mit dem Motor beim Förderbandmodell." },
+  { q: "11. Welches Formelzeichen steht für die Spannung?", options:["U","I","R","P"], correct:0,
+    explanation:"Das Formelzeichen der Spannung ist U." },
+  { q: "12. Welche Einheit hat die elektrische Spannung?", options:["Volt (V)","Ampere (A)","Ohm (Ω)","Joule (J)"], correct:0,
+    explanation:"Die Einheit der Spannung ist 1 Volt (V)." },
+  { q: "13. Je größer die Spannung, desto …", options:[
+      "stärker ist der „Antrieb“ für die Elektronen",
+      "schwächer ist der „Antrieb“ für die Elektronen",
+      "weniger Elektronen gibt es",
+      "wärmer wird die Batterie automatisch"], correct:0,
+    explanation:"Die Spannung beschreibt die Stärke des Antriebs – je größer sie ist, desto stärker werden die Elektronen „angetrieben“." },
+  { q: "14. Im Förderbandmodell entspricht das Förderband selbst (mit Motor) im Stromkreis …", options:[
+      "der Spannungsquelle (Batterie)","dem Verbraucher (Lampe)","dem Kabel","dem Schalter"], correct:0,
+    explanation:"Das Förderband mit seinem Antriebsmotor entspricht der Batterie, die den „Antrieb“ (Spannung) liefert." },
+  { q: "15. Die Kugeln, die auf dem Förderband transportiert werden, entsprechen …", options:[
+      "den Elektronen (Ladungsträgern)","der Spannung","dem Widerstand","der Energie"], correct:0,
+    explanation:"Die transportierten Kugeln stehen für die Elektronen, die als Ladungsträger durch den Stromkreis bewegt werden." }
+];
+
+const OPTION_LETTERS = ["A","B","C","D","E"];
+function shuffledIndices(n){
+  const arr = Array.from({length:n}, (_,i) => i);
+  for(let i = arr.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+let currentQuizIdx = 0, score = 0, currentOrder = [], currentCorrectIdx = 0;
+const quizQuestionEl = document.getElementById('quizQuestion');
+const quizOptionsEl = document.getElementById('quizOptions');
+const quizFeedbackEl = document.getElementById('quizFeedback');
+const quizScoreEl = document.getElementById('quizScore');
+const quizProgressBar = document.getElementById('quizProgressBar');
+const quizCounterText = document.getElementById('quizCounterText');
+const btnNextQuiz = document.getElementById('btnNextQuiz');
+
+function renderQuestion(){
+  const q = quizQuestions[currentQuizIdx];
+  quizQuestionEl.textContent = q.q;
+  quizScoreEl.textContent = `Frage ${currentQuizIdx+1} / ${quizQuestions.length}`;
+  quizCounterText.textContent = `Punkte: ${score} / ${currentQuizIdx}`;
+  quizProgressBar.style.width = `${((currentQuizIdx+1)/quizQuestions.length)*100}%`;
+  quizFeedbackEl.classList.add('hidden');
+  btnNextQuiz.classList.add('hidden');
+  quizOptionsEl.innerHTML = '';
+
+  currentOrder = shuffledIndices(q.options.length);
+  currentCorrectIdx = currentOrder.indexOf(q.correct);
+
+  currentOrder.forEach((origIdx, pos) => {
+    const btn = document.createElement('button');
+    btn.className = "w-full text-left p-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 transition text-slate-200 font-medium text-sm";
+    btn.textContent = `${OPTION_LETTERS[pos]}) ${q.options[origIdx]}`;
+    btn.addEventListener('click', () => checkAnswer(pos));
+    quizOptionsEl.appendChild(btn);
+  });
+}
+
+function checkAnswer(chosenIdx){
+  const q = quizQuestions[currentQuizIdx];
+  const buttons = quizOptionsEl.querySelectorAll('button');
+  buttons.forEach(b => b.disabled = true);
+
+  if(chosenIdx === currentCorrectIdx){
+    buttons[chosenIdx].classList.add('bg-emerald-950/80','border-emerald-500/50','text-emerald-200');
+    quizFeedbackEl.className = "p-4 rounded-xl text-xs bg-emerald-950/60 border border-emerald-500/40 text-emerald-200";
+    quizFeedbackEl.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 mr-1.5"></i> Richtig! ${q.explanation}`;
+    score++;
+  } else {
+    buttons[chosenIdx].classList.add('bg-rose-950/80','border-rose-500/50','text-rose-200');
+    buttons[currentCorrectIdx].classList.add('bg-emerald-950/80','border-emerald-500/50','text-emerald-200');
+    quizFeedbackEl.className = "p-4 rounded-xl text-xs bg-rose-950/60 border border-rose-500/40 text-rose-200";
+    quizFeedbackEl.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-400 mr-1.5"></i> Leider nicht ganz. ${q.explanation}`;
+  }
+  quizCounterText.textContent = `Punkte: ${score} / ${currentQuizIdx+1}`;
+  quizFeedbackEl.classList.remove('hidden');
+
+  if(currentQuizIdx < quizQuestions.length - 1){
+    btnNextQuiz.innerHTML = '<span>Nächste Frage</span> <i class="fa-solid fa-arrow-right"></i>';
+    btnNextQuiz.classList.remove('hidden');
+    btnNextQuiz.onclick = () => { currentQuizIdx++; renderQuestion(); };
+  } else {
+    btnNextQuiz.innerHTML = `<span>Quiz fertig! (${score}/${quizQuestions.length}) – Weiter zu Station 2</span> <i class="fa-solid fa-arrow-right"></i>`;
+    btnNextQuiz.classList.remove('hidden');
+    btnNextQuiz.onclick = () => { window.location.href = "umrechnen.html"; };
+  }
+}
+
+renderQuestion();
+</script>
+</body>
+</html>

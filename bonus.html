@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonusaufgaben – Messwerkstatt Elektrik</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] } } }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #f8fafc; }
+        .glass-panel { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .glass-card { background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .nav-pill { padding: 0.375rem 0.75rem; border-radius: 0.5rem; background: #1e293b; color: #cbd5e1; border: 1px solid #334155; transition: all 0.15s; }
+        .nav-pill:hover { background: #334155; }
+        .nav-pill.active { background: rgba(168,85,247,0.15); border-color: rgba(168,85,247,0.4); color: #d8b4fe; }
+        .step-badge { width: 2rem; height: 2rem; border-radius: 9999px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem; flex-shrink: 0; }
+        .formula-box { font-family: 'JetBrains Mono', monospace; background: rgba(168, 85, 247, 0.1); border-left: 4px solid #a855f7; }
+        details > summary { cursor: pointer; list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] .chevron { transform: rotate(180deg); }
+        .sim-link { background: rgba(56,189,248,0.1); border: 1px dashed #38bdf8; }
+        .sim-link:hover { background: rgba(56,189,248,0.18); }
+        .conv-input { background:#0f172a; border:1px solid #334155; color:#f8fafc; }
+        .conv-input:focus { outline:2px solid #a855f7; border-color:#a855f7; }
+        .conv-input.ok { border-color:#10b981; background: rgba(16,185,129,0.08); }
+        .conv-input.bad { border-color:#f43f5e; background: rgba(244,63,94,0.08); }
+        .check-row { display:flex; align-items:flex-start; gap:10px; background: rgba(2,6,23,0.4); border:1px solid #334155; border-radius:12px; padding:12px 14px; }
+        .check-row input[type=checkbox] { margin-top:3px; width:16px; height:16px; accent-color:#a855f7; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-fuchsia-500 selection:text-white">
+
+    <header class="sticky top-0 z-50 glass-panel border-b border-slate-800">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4 flex-wrap">
+            <div class="flex items-center space-x-3">
+                <a href="index.html" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 transition" title="Zur Übersicht">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-violet-500 to-fuchsia-600 flex items-center justify-center text-white shadow-lg shadow-violet-500/20">
+                    <i class="fa-solid fa-star text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-base font-bold text-white leading-tight">Bonusaufgaben</h1>
+                    <p class="text-xs text-violet-400 font-medium">Extra · für alle, die früher fertig sind</p>
+                </div>
+            </div>
+            <nav class="flex items-center gap-1.5 text-xs font-semibold flex-wrap">
+                <a href="quiz1.html" class="nav-pill">1. Quiz</a>
+                <a href="umrechnen.html" class="nav-pill">2. Umrechnen</a>
+                <a href="arbeitsblatt.html" class="nav-pill">3. Arbeitsblatt</a>
+                <a href="quiz2.html" class="nav-pill">4. Abschluss</a>
+                <a href="bonus.html" class="nav-pill active">★ Bonus</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow space-y-8">
+
+        <div class="glass-panel rounded-2xl p-6 border border-violet-500/20">
+            <p class="text-sm text-slate-300 leading-relaxed">
+                Du bist mit allem fertig? Stark! Hier sind ein paar freiwillige Extra-Aufgaben rund um Stromstärke und Spannung –
+                kein Zwang, keine Abgabe, einfach zum Weiterknobeln.
+            </p>
+        </div>
+
+        <!-- A: Rechen-Profi -->
+        <section class="glass-card rounded-2xl p-5 border-l-4 border-l-violet-500">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="step-badge bg-violet-500/20 text-violet-400"><i class="fa-solid fa-bolt text-xs"></i></div>
+                <h2 class="font-bold text-white text-sm">Rechen-Profi: Werte aus dem Alltag</h2>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed mb-3">Rechne die folgenden Alltagswerte in die angegebene Einheit um.</p>
+            <div id="bonusConvList" class="divide-y divide-slate-800"></div>
+        </section>
+
+        <!-- B: Alltags-Quiz -->
+        <section class="glass-card rounded-2xl p-5 border-l-4 border-l-violet-500">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="step-badge bg-violet-500/20 text-violet-400"><i class="fa-solid fa-house-signal text-xs"></i></div>
+                <h2 class="font-bold text-white text-sm">Alltags-Quiz: Wie viel Ampere, wie viel Volt?</h2>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed mb-4">Typische Stromstärken und Spannungen aus dem echten Leben – kennst du sie?</p>
+
+            <div class="flex items-center justify-between mb-3">
+                <span id="bonusScoreTag" class="text-xs bg-violet-500/10 text-violet-400 px-3 py-1.5 rounded-full border border-violet-500/20 font-mono font-bold">Frage 1 / 8</span>
+                <span id="bonusCounterText" class="text-xs text-slate-400 font-mono">Punkte: 0 / 0</span>
+            </div>
+            <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden mb-4">
+                <div id="bonusProgressBar" class="bg-gradient-to-r from-violet-500 to-fuchsia-500 h-full transition-all duration-300" style="width:12.5%"></div>
+            </div>
+
+            <div id="bonusQuestion" class="text-sm font-medium text-white leading-relaxed"></div>
+            <div id="bonusOptions" class="grid grid-cols-1 gap-2.5 pt-3"></div>
+            <div id="bonusFeedback" class="hidden p-4 rounded-xl text-xs leading-relaxed mt-3"></div>
+            <div class="flex items-center justify-end pt-3 mt-2 border-t border-slate-800">
+                <button id="btnBonusNext" class="hidden px-5 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs transition flex items-center gap-2">
+                    <span>Nächste Frage</span> <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- C: Simulations-Expedition -->
+        <section class="glass-card rounded-2xl p-5 border-l-4 border-l-violet-500">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="step-badge bg-violet-500/20 text-violet-400"><i class="fa-solid fa-flask text-xs"></i></div>
+                <h2 class="font-bold text-white text-sm">Simulations-Expedition</h2>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                Probiere in der Simulation aus, was passiert. Hake ab, was du ausprobiert hast – es gibt keine falschen Ergebnisse,
+                nur Beobachtungen.
+            </p>
+            <a href="https://phet.colorado.edu/sims/html/circuit-construction-kit-dc-virtual-lab/latest/circuit-construction-kit-dc-virtual-lab_de.html" target="_blank" rel="noopener" class="sim-link inline-flex items-center gap-2 text-sky-300 px-4 py-2 rounded-xl text-xs font-bold transition mb-4">
+                <i class="fa-solid fa-bolt"></i> Simulation öffnen (PhET) <i class="fa-solid fa-up-right-from-square text-[10px]"></i>
+            </a>
+            <div class="space-y-2.5">
+                <label class="check-row"><input type="checkbox"><span class="text-xs text-slate-300">Schließe zwei gleiche Lampen in Reihe an eine Batterie an und vergleiche die Helligkeit mit einer einzelnen Lampe: Leuchten sie heller, dunkler oder genauso hell?</span></label>
+                <label class="check-row"><input type="checkbox"><span class="text-xs text-slate-300">Baue das Amperemeter absichtlich parallel statt in Reihe ein und beobachte, was im Diagramm passiert. (Keine Sorge, in der Simulation kann nichts kaputtgehen.)</span></label>
+                <label class="check-row"><input type="checkbox"><span class="text-xs text-slate-300">Tausche die Batterie gegen eine mit anderer Spannung aus und beobachte, wie sich die Stromstärke verändert.</span></label>
+                <label class="check-row"><input type="checkbox"><span class="text-xs text-slate-300">Baue einen zweiten Widerstand in Reihe ein und beobachte, wie sich die Stromstärke verändert.</span></label>
+            </div>
+        </section>
+
+        <!-- D: Denksport -->
+        <section class="glass-card rounded-2xl p-5 border-l-4 border-l-violet-500">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="step-badge bg-violet-500/20 text-violet-400"><i class="fa-solid fa-brain text-xs"></i></div>
+                <h2 class="font-bold text-white text-sm">Denksport · Vorausschau</h2>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                Du schließt zwei baugleiche Lampen in Reihe an dieselbe Batterie an, mit der vorher nur eine einzelne Lampe betrieben
+                wurde. Leuchten die beiden Lampen heller, dunkler oder genauso hell wie vorher die einzelne Lampe? Begründe mit dem,
+                was du heute über Spannung gelernt hast.
+            </p>
+            <details class="group">
+                <summary class="flex items-center gap-2 text-xs font-semibold text-violet-400 hover:text-violet-300 w-fit">
+                    <i class="fa-solid fa-chevron-down chevron transition-transform text-[10px]"></i> Lösung anzeigen
+                </summary>
+                <div class="mt-3 bg-slate-900/70 rounded-xl p-4 border border-slate-800 text-xs text-slate-300 leading-relaxed space-y-2">
+                    <p>Die beiden Lampen leuchten <strong class="text-violet-300">dunkler</strong> als die einzelne Lampe vorher.</p>
+                    <p>Die Batteriespannung ist der „Antrieb“ und verteilt sich jetzt auf <strong class="text-violet-300">zwei</strong> Verbraucher statt auf einen
+                    einzigen. Jede Lampe bekommt also einen kleineren Anteil der Spannung als vorher – der Antrieb pro Lampe ist schwächer.</p>
+                    <p class="text-slate-400">Wie genau sich Spannung und Stromstärke in Reihen- und Parallelschaltungen aufteilen, lernt ihr in einer
+                    der nächsten Stunden noch ganz genau!</p>
+                </div>
+            </details>
+        </section>
+
+    </main>
+
+    <footer class="glass-panel border-t border-slate-800 mt-12 py-6 text-center text-xs text-slate-400">
+        <div class="max-w-3xl mx-auto px-4"><p>Messwerkstatt Elektrik · Physik 8. Klasse</p></div>
+    </footer>
+
+<script>
+// ===== A: Rechen-Profi =====
+const bonusConv = [
+  {label:"Ein USB-Ladegerät liefert", from:"I = 2 A", target:"mA", answer:2000, display:"2000 mA"},
+  {label:"Eine Autobatterie hat", from:"U = 12 V", target:"mV", answer:12000, display:"12000 mV"},
+  {label:"Ein Blitz hat etwa", from:"I = 30 kA", target:"A", answer:30000, display:"30000 A"},
+  {label:"Eine Powerbank liefert", from:"I = 1500 mA", target:"A", answer:1.5, display:"1,5 A"},
+  {label:"Eine Hochspannungsleitung führt", from:"U = 110 kV", target:"V", answer:110000, display:"110000 V"}
+];
+const bcList = document.getElementById('bonusConvList');
+bonusConv.forEach((c, i) => {
+  const row = document.createElement('div');
+  row.className = "py-3.5";
+  row.innerHTML = `
+    <p class="text-xs text-slate-400 mb-1.5">${c.label}:</p>
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="font-mono text-sm text-slate-200">${c.from} =</span>
+      <input type="text" inputmode="decimal" id="bc-in-${i}" placeholder="?" class="conv-input rounded-lg px-3 py-2 text-sm font-mono w-24 text-center">
+      <span class="font-mono text-sm text-slate-200">${c.target}</span>
+      <button data-idx="${i}" class="bc-check px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition">Prüfen</button>
+      <span id="bc-fb-${i}" class="text-xs"></span>
+    </div>
+    <details class="mt-1.5">
+      <summary class="text-[11px] text-violet-400 hover:text-violet-300 w-fit font-semibold"><i class="fa-solid fa-chevron-down chevron transition-transform text-[9px] mr-1"></i>Lösung anzeigen</summary>
+      <div class="mt-1.5 text-xs text-violet-200 font-mono bg-slate-900/70 border border-slate-800 rounded-lg px-3 py-2 inline-block">${c.from} = ${c.display}</div>
+    </details>
+  `;
+  bcList.appendChild(row);
+});
+function parseNum(raw){ return parseFloat(String(raw||"").trim().replace(/\./g,"").replace(",",".")); }
+function numsClose(a,b){ if(isNaN(a)) return false; const tol = Math.max(Math.abs(b)*0.01, 0.001); return Math.abs(a-b) <= tol; }
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.bc-check');
+  if(!btn) return;
+  const i = btn.dataset.idx;
+  const c = bonusConv[i];
+  const input = document.getElementById('bc-in-'+i);
+  const fb = document.getElementById('bc-fb-'+i);
+  const ok = numsClose(parseNum(input.value), c.answer);
+  input.classList.remove('ok','bad');
+  input.classList.add(ok ? 'ok' : 'bad');
+  fb.innerHTML = ok
+    ? '<i class="fa-solid fa-circle-check text-emerald-400"></i> <span class="text-emerald-400">Richtig!</span>'
+    : '<i class="fa-solid fa-circle-xmark text-rose-400"></i> <span class="text-rose-400">Noch nicht richtig</span>';
+});
+
+// ===== B: Alltags-Quiz =====
+const bonusQuestions = [
+  { q:"1. Eine haushaltsübliche Steckdose in Deutschland hat eine Spannung von …", options:["230 V","12 V","1,5 V","4,5 V"], correct:0,
+    explanation:"Die Netzspannung in deutschen Haushalten beträgt 230 V – deshalb ist der direkte Kontakt mit einer Steckdose gefährlich!" },
+  { q:"2. Eine AA-Batterie (Mignon) hat eine Spannung von …", options:["1,5 V","9 V","12 V","230 V"], correct:0,
+    explanation:"Eine normale AA-Batterie liefert 1,5 V." },
+  { q:"3. Eine 9V-Blockbatterie hat eine Spannung von …", options:["9 V","1,5 V","4,5 V","12 V"], correct:0,
+    explanation:"Der Name verrät es schon: 9 V." },
+  { q:"4. Ein Smartphone wird meist mit einer Stromstärke von etwa … geladen.", options:["1–2 A","10–20 mA","100 A","0,001 A"], correct:0,
+    explanation:"Handy-Ladegeräte liefern meist 1–2 A (teils mehr bei Schnellladung)." },
+  { q:"5. Eine Autobatterie hat eine Spannung von …", options:["12 V","1,5 V","230 V","9 V"], correct:0,
+    explanation:"Autobatterien liefern üblicherweise 12 V." },
+  { q:"6. Ab welcher Stromstärke kann es für den Menschen durch den Körper gefährlich werden?", options:["ca. 50 mA","ca. 50 kA","ca. 5 A","ca. 0,5 µA"], correct:0,
+    explanation:"Schon ab etwa 50 mA (0,05 A) durch den Körper kann es lebensgefährlich werden – deshalb ist Vorsicht bei Netzspannung wichtig." },
+  { q:"7. Ein Blitz hat eine Stromstärke von …", options:["mehreren 10.000 A","mehreren mA","ca. 5 A","ca. 1 kA"], correct:0,
+    explanation:"Ein Blitz kann Stromstärken von 20.000 A und mehr erreichen – extrem kurzzeitig, aber gewaltig." },
+  { q:"8. Wie nennt man ein Gerät, mit dem man sowohl Stromstärke als auch Spannung messen kann?", options:["Multimeter","Thermometer","Barometer","nur Amperemeter"], correct:0,
+    explanation:"Das Multimeter (Vielfachmessgerät) kann je nach Einstellung Stromstärke, Spannung und mehr messen." }
+];
+let bIdx = 0, bScore = 0, bOrder = [], bCorrectIdx = 0;
+const LETTERS = ["A","B","C","D"];
+function shuffledIdx(n){ const a=Array.from({length:n},(_,i)=>i); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; }
+const bQEl = document.getElementById('bonusQuestion'), bOEl = document.getElementById('bonusOptions'),
+      bFEl = document.getElementById('bonusFeedback'), bSEl = document.getElementById('bonusScoreTag'),
+      bPEl = document.getElementById('bonusProgressBar'), bCEl = document.getElementById('bonusCounterText'),
+      bNextBtn = document.getElementById('btnBonusNext');
+
+function renderBonusQ(){
+  const q = bonusQuestions[bIdx];
+  bQEl.textContent = q.q;
+  bSEl.textContent = `Frage ${bIdx+1} / ${bonusQuestions.length}`;
+  bCEl.textContent = `Punkte: ${bScore} / ${bIdx}`;
+  bPEl.style.width = `${((bIdx+1)/bonusQuestions.length)*100}%`;
+  bFEl.classList.add('hidden');
+  bNextBtn.classList.add('hidden');
+  bOEl.innerHTML = '';
+  bOrder = shuffledIdx(q.options.length);
+  bCorrectIdx = bOrder.indexOf(q.correct);
+  bOrder.forEach((origIdx, pos) => {
+    const btn = document.createElement('button');
+    btn.className = "w-full text-left p-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 transition text-slate-200 font-medium text-sm";
+    btn.textContent = `${LETTERS[pos]}) ${q.options[origIdx]}`;
+    btn.addEventListener('click', () => checkBonusAnswer(pos));
+    bOEl.appendChild(btn);
+  });
+}
+function checkBonusAnswer(chosenIdx){
+  const q = bonusQuestions[bIdx];
+  const buttons = bOEl.querySelectorAll('button');
+  buttons.forEach(b => b.disabled = true);
+  if(chosenIdx === bCorrectIdx){
+    buttons[chosenIdx].classList.add('bg-emerald-950/80','border-emerald-500/50','text-emerald-200');
+    bFEl.className = "p-4 rounded-xl text-xs bg-emerald-950/60 border border-emerald-500/40 text-emerald-200";
+    bFEl.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400 mr-1.5"></i> Richtig! ${q.explanation}`;
+    bScore++;
+  } else {
+    buttons[chosenIdx].classList.add('bg-rose-950/80','border-rose-500/50','text-rose-200');
+    buttons[bCorrectIdx].classList.add('bg-emerald-950/80','border-emerald-500/50','text-emerald-200');
+    bFEl.className = "p-4 rounded-xl text-xs bg-rose-950/60 border border-rose-500/40 text-rose-200";
+    bFEl.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-400 mr-1.5"></i> Leider nicht ganz. ${q.explanation}`;
+  }
+  bCEl.textContent = `Punkte: ${bScore} / ${bIdx+1}`;
+  bFEl.classList.remove('hidden');
+  if(bIdx < bonusQuestions.length - 1){
+    bNextBtn.innerHTML = '<span>Nächste Frage</span> <i class="fa-solid fa-arrow-right"></i>';
+    bNextBtn.classList.remove('hidden');
+    bNextBtn.onclick = () => { bIdx++; renderBonusQ(); };
+  } else {
+    bNextBtn.innerHTML = `<span>Geschafft! (${bScore}/${bonusQuestions.length})</span> <i class="fa-solid fa-star"></i>`;
+    bNextBtn.classList.remove('hidden');
+    bNextBtn.onclick = () => { bIdx = 0; bScore = 0; renderBonusQ(); };
+  }
+}
+renderBonusQ();
+</script>
+</body>
+</html>
